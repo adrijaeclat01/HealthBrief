@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HealthBrief — Your Health, Simply Explained</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FAF6EF;
+      --warm-white: #FDF9F4;
+      --sand: #EDE4D4;
+      --sand-dark: #D9CCBA;
+      --teal: #2A7A6F;
+      --teal-light: #3A9A8D;
+      --teal-pale: #E6F4F2;
+      --amber: #C97D2E;
+      --text-dark: #2C2416;
+      --text-mid: #5C4F3A;
+      --text-light: #8C7E6A;
+      --red-soft: #C0392B;
+      --red-pale: #FDF0EE;
+      --green-soft: #2A7A4F;
+      --green-pale: #EDF7F2;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 10% 20%, rgba(42,122,111,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 80%, rgba(201,125,46,0.06) 0%, transparent 50%);
+    }
+
+    /* HEADER */
+    header {
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--sand-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--warm-white);
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: var(--teal);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg { width: 22px; height: 22px; }
+
+    .logo-text {
+      font-family: 'Lora', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .logo-text span {
+      color: var(--teal);
+    }
+
+    .tagline {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-style: italic;
+      font-family: 'Lora', serif;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Lora', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* UPLOAD CARD */
+    .upload-card {
+      background: var(--warm-white);
+      border: 1.5px solid var(--sand-dark);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .upload-zone {
+      border: 2px dashed var(--sand-dark);
+      border-radius: 14px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: var(--cream);
+      position: relative;
+    }
+
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--teal);
+      background: var(--teal-pale);
+    }
+
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--teal-pale);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .upload-icon svg { width: 26px; height: 26px; color: var(--teal); }
+
+    .upload-zone h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .upload-zone p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .file-name-display {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--teal-pale);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--teal);
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .file-name-display.visible { display: flex; }
+
+    .analyse-btn {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 1rem 2rem;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+
+    .analyse-btn:hover:not(:disabled) {
+      background: var(--teal-light);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(42,122,111,0.25);
+    }
+
+    .analyse-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* CONSENT */
+    .consent-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      padding: 1rem 1.1rem;
+      background: var(--teal-pale);
+      border: 1px solid #B8DDD9;
+      border-radius: 10px;
+    }
+
+    .consent-box input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+
+    .consent-box label {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      cursor: pointer;
+    }
+
+    .consent-box label strong {
+      color: var(--text-dark);
+    }
+
+    /* LOADING */
+    .loading-state {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .loading-state.visible { display: block; }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid var(--sand);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    .loading-state p {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--text-mid);
+      font-size: 1rem;
+    }
+
+    /* RESULTS */
+    .results-container {
+      display: none;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .results-container.visible { display: block; }
+
+    .result-section {
+      background: var(--warm-white);
+      border: 1.5px solid var(--sand-dark);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--sand);
+    }
+
+    .section-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-icon.teal { background: var(--teal-pale); }
+    .section-icon.amber { background: #FEF3E8; }
+    .section-icon svg { width: 20px; height: 20px; }
+
+    .section-header h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* PARAMETERS */
+    .param-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .param-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      background: var(--cream);
+      border: 1px solid var(--sand);
+    }
+
+    .param-item.normal { border-left: 3px solid var(--green-soft); }
+    .param-item.abnormal { border-left: 3px solid var(--red-soft); background: var(--red-pale); }
+    .param-item.borderline { border-left: 3px solid var(--amber); background: #FEF9F0; }
+
+    .param-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .param-item.normal .param-dot { background: var(--green-soft); }
+    .param-item.abnormal .param-dot { background: var(--red-soft); }
+    .param-item.borderline .param-dot { background: var(--amber); }
+
+    .param-name {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .param-value {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-top: 0.15rem;
+    }
+
+    .param-note {
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+    }
+
+    .param-item.abnormal .param-note { color: var(--red-soft); }
+    .param-item.borderline .param-note { color: var(--amber); }
+    .param-item.normal .param-note { color: var(--green-soft); }
+
+    /* ACTION PLAN */
+    .action-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .action-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: var(--cream);
+      border: 1px solid var(--sand);
+      border-radius: 10px;
+    }
+
+    .action-number {
+      width: 28px;
+      height: 28px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 500;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .action-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-dark);
+    }
+
+    .action-timing {
+      font-size: 0.82rem;
+      color: var(--teal);
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    /* RESET */
+    .reset-btn {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 0.75rem 2rem;
+      background: transparent;
+      border: 1.5px solid var(--sand-dark);
+      border-radius: 10px;
+      color: var(--text-mid);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .reset-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    /* ERROR */
+    .error-box {
+      display: none;
+      background: var(--red-pale);
+      border: 1px solid #E8B4B0;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      color: var(--red-soft);
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .error-box.visible { display: block; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      border-top: 1px solid var(--sand);
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.7rem; }
+      .tagline { display: none; }
+      main { padding: 2rem 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+    </svg>
+  </div>
+  <div class="logo-text">Health<span>Brief</span></div>
+  <div class="tagline">Your health report, simply explained</div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>Understand your health report<br/>in plain words</h1>
+    <p>Upload any medical report and get a clear summary of your current health parameters — and exactly what to do next.</p>
+  </div>
+
+  <div class="upload-card" id="uploadCard">
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" />
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <line x1="9" y1="15" x2="15" y2="15"/>
+        </svg>
+      </div>
+      <h3>Upload your medical report</h3>
+      <p>PDF, JPG or PNG — blood test, scan report, prescription</p>
+    </div>
+
+    <div class="file-name-display" id="fileNameDisplay">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      </svg>
+      <span id="fileNameText"></span>
+    </div>
+
+    <div class="consent-box">
+      <input type="checkbox" id="consentCheck" onchange="handleConsent()" />
+      <label for="consentCheck">
+        <strong>I give my consent</strong> to upload this medical report for analysis. I understand that HealthBrief is a summary tool only and does not store my data or provide medical advice. I will consult my doctor for any medical decisions.
+      </label>
+    </div>
+
+    <div class="error-box" id="errorBox"></div>
+
+    <button class="analyse-btn" id="analyseBtn" disabled onclick="analyseReport()">
+      Analyse My Report
+    </button>
+  </div>
+
+  <div class="loading-state" id="loadingState">
+    <div class="spinner"></div>
+    <p>Reading your report carefully…</p>
+  </div>
+
+  <div class="results-container" id="resultsContainer">
+    <div class="result-section" id="summarySection">
+      <div class="section-header">
+        <div class="section-icon teal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h2>Your Current Health Parameters</h2>
+      </div>
+      <div class="param-list" id="paramList"></div>
+    </div>
+
+    <div class="result-section" id="actionSection">
+      <div class="section-header">
+        <div class="section-icon amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h2>What To Do Next</h2>
+      </div>
+      <div class="action-list" id="actionList"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetApp()">← Analyse another report</button>
+  </div>
+</main>
+
+<footer>
+  HealthBrief is a summary tool. Always consult your doctor for medical decisions.
+</footer>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const fileNameText = document.getElementById('fileNameText');
+  const analyseBtn = document.getElementById('analyseBtn');
+  const uploadZone = document.getElementById('uploadZone');
+  const errorBox = document.getElementById('errorBox');
+
+  let selectedFile = null;
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      selectedFile = file;
+      fileNameText.textContent = file.name;
+      fileNameDisplay.classList.add('visible');
+      updateAnalyseBtn();
+    }
+  });
+
+  function handleConsent() {
+    updateAnalyseBtn();
+  }
+
+  function updateAnalyseBtn() {
+    const consent = document.getElementById('consentCheck').checked;
+    analyseBtn.disabled = !(selectedFile && consent);
+  }
+
+  uploadZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
+  });
+
+  uploadZone.addEventListener('dragleave', () => {
+    uploadZone.classList.remove('dragover');
+  });
+
+  uploadZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      selectedFile = file;
+      fileNameText.textContent = file.name;
+      fileNameDisplay.classList.add('visible');
+      analyseBtn.disabled = false;
+    }
+  });
+
+  async function analyseReport() {
+    if (!selectedFile) return;
+
+    errorBox.classList.remove('visible');
+    document.getElementById('uploadCard').style.display = 'none';
+    document.getElementById('loadingState').classList.add('visible');
+
+    try {
+      const base64 = await fileToBase64(selectedFile);
+      const mimeType = selectedFile.type || 'application/pdf';
+
+      const response = await fetch('/api/summarize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base64, mimeType })
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || 'Something went wrong');
+      }
+
+      const data = await response.json();
+      renderResults(data);
+
+    } catch (err) {
+      document.getElementById('uploadCard').style.display = 'block';
+      errorBox.textContent = err.message || 'Could not analyse report. Please try again.';
+      errorBox.classList.add('visible');
+    } finally {
+      document.getElementById('loadingState').classList.remove('visible');
+    }
+  }
+
+  function renderResults(data) {
+    // Parameters
+    const paramList = document.getElementById('paramList');
+    paramList.innerHTML = '';
+    (data.parameters || []).forEach(p => {
+      const div = document.createElement('div');
+      div.className = `param-item ${p.status || 'normal'}`;
+      div.innerHTML = `
+        <div class="param-dot"></div>
+        <div>
+          <div class="param-name">${p.name}</div>
+          <div class="param-value">${p.value}</div>
+          ${p.note ? `<div class="param-note">${p.note}</div>` : ''}
+        </div>
+      `;
+      paramList.appendChild(div);
+    });
+
+    // Actions
+    const actionList = document.getElementById('actionList');
+    actionList.innerHTML = '';
+    (data.actions || []).forEach((a, i) => {
+      const div = document.createElement('div');
+      div.className = 'action-item';
+      div.innerHTML = `
+        <div class="action-number">${i + 1}</div>
+        <div>
+          <div class="action-text">${a.text}</div>
+          ${a.timing ? `<div class="action-timing">${a.timing}</div>` : ''}
+        </div>
+      `;
+      actionList.appendChild(div);
+    });
+
+    document.getElementById('resultsContainer').classList.add('visible');
+  }
+
+  function resetApp() {
+    selectedFile = null;
+    fileInput.value = '';
+    fileNameDisplay.classList.remove('visible');
+    analyseBtn.disabled = true;
+    errorBox.classList.remove('visible');
+    document.getElementById('consentCheck').checked = false;
+    document.getElementById('resultsContainer').classList.remove('visible');
+    document.getElementById('uploadCard').style.display = 'block';
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+</script>
+</body>
+</html>
