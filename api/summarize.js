@@ -45,7 +45,7 @@ Rules:
 
   try {
     const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -74,7 +74,7 @@ Rules:
     if (!geminiRes.ok) {
       const errData = await geminiRes.json();
       console.error('Gemini error:', errData);
-      return res.status(500).json({ error: 'Could not read report. Please check the file and try again.' });
+      return res.status(500).json({ error: errData?.error?.message || 'Could not read report. Please check the file and try again.' });
     }
 
     const geminiData = await geminiRes.json();
