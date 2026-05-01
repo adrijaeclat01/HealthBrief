@@ -1,9 +1,0 @@
-{
-  "name": "healthbrief",
-  "version": "1.0.0",
-  "description": "Medical report summariser for patients",
-  "scripts": {
-    "dev": "vercel dev"
-  },
-  "dependencies": {}
-}
